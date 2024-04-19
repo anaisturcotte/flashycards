@@ -1,3 +1,5 @@
+
+//------------------Form--------------------
 const wrapper = document.querySelector('.wrapper');
 const signUpLink = document.querySelector('.signUp-link');
 const signInLink = document.querySelector('.signIn-link');
@@ -23,4 +25,4 @@ close.addEventListener('click', () => {
     toggleLogin.classList.toggle('active');
     wrapper.classList.toggle('active');
     wrapper.classList.remove('show-bg');
-})
+});
