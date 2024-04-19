@@ -54,14 +54,16 @@ body{
 
 /* header */
 .header{
+    display: flex;
+    justify-content: space-between;
     position: absolute;
     top: 0;
     padding: 7px;
     align-items: center;
     height: fit-content;
-    width: 95%;
+    width: 100%;
     background: var(--primary);
-    border: 3px solid red;
+    /* border: 3px solid red; */
 }
 
 .header a{
@@ -85,13 +87,14 @@ body{
 #three{
     position: absolute;
     top: 7px;
-    margin-right: 50%;
+    right: 93px;
     padding: 5px;
     align-items: center;
     height: fit-content;
     background: var(--primary);
     font-size: 20px;
     font-weight: 500;
+    border: 2px solid black;
 }
 
 /* title */
