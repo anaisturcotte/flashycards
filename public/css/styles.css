@@ -1,0 +1,245 @@
+@CHARSET "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&family=Tenor+Sans&display=swap');
+
+/* Color palette */
+:root{
+  --green: #3C7F72;
+  --primary: #FFFBED;
+  --secondary: #303030;
+  --grey: #757575;
+  --red: #992800;
+  --orange: #D34A24;
+  --yellow:#FFAF00;
+}
+
+/* Page styling */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Calistoga";
+  margin: 0;
+  background-color: var(--primary);
+  height: auto;
+}
+
+/* Main divisions */
+
+.row {
+  display: flex;
+  height: 89vh;
+  max-height: 100vh;
+}
+
+.footer {
+  background-color: #303030;
+  text-align: center;
+  font-size: 15px;
+  width: 100%;
+  color: #ededed;
+  padding: 15px;
+  bottom: 0;
+  max-height: 60px;
+  position: fixed;
+}
+
+/* header */
+.header {
+  font-family: "Calistoga";
+  padding: 10px;
+  top: 0;
+  position: sticky;
+  height: 8vh;
+}
+
+.header-center {
+  float: center;
+}
+
+.header-right {
+  float: right;
+}
+
+.header a {
+  text-decoration: none;
+  color: black;
+  padding: 3px;
+  border: 2px solid black;
+}
+
+/* title */
+.title {
+  text-align: center;
+  width: 100%;
+  padding: 5%;
+  background-color: var(--primary);
+}
+
+.title h1 {
+  font-family: "Calistoga";
+  font-size: 90px;
+  font-weight: 100;
+}
+
+/* For cards */
+
+.filter {
+  background-color: var(--grey);
+  padding: 10px;
+  width: 20%;
+  height: 40%;
+  position: sticky;
+  top: 10%;
+  border-radius: 10px;
+  left: 0;
+  margin-left: 5px;
+}
+
+.explore_page {
+  padding-left: 25%;
+  padding-top: 20px;
+  height: 100%;
+  text-align: left;
+  background-color: var(--primary);
+  padding-bottom: 40px;
+  padding-right: 40px;
+}
+
+/* Text */
+
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+/* Dans page */
+
+.menu-bar {
+  text-align: center;
+  padding: 5px;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  padding-bottom: 16%;
+  background-color: var(--primary);
+}
+
+#signcontainer{
+  margin-top: auto;
+  top: 50vh;
+  height: 100vh;
+}
+
+.popUp {
+  width: 75vh;
+  height: fit-content;
+  border: 4px solid var(--grey);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 80px;
+  text-align: left;
+}
+
+.contenu h1{
+  text-align: center;
+}
+
+/* Table */
+
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 2px solid black;
+  border-radius: 100px;
+}
+
+table.center td {
+  border-right: 2px solid black;
+  padding: 0 10px;
+}
+
+table.center td:last-child {
+  border-right: none;
+}
+
+table.center td a {
+  padding-left: 5px;
+  padding-right: 5px;
+  text-decoration: none;
+  font-size: 30px;
+  color: black;
+}
+
+table.center td a:hover {
+  text-decoration-line: underline;
+}
+
+/* card study page */
+
+.slider-container {
+  -ms-flex: 4%;
+  flex: 4%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  padding-right: 8%;
+}
+
+.slider {
+  height: 100%;
+}
+
+.vertical-slider {
+  appearance: slider-vertical;
+}
+
+.card {
+  -ms-flex: 82%;
+  flex: 82%;
+  padding: 20px;
+  margin-left: 3%;
+  margin-right: 3%;
+  position: absolute;
+  align-items: center;
+  top: 15%;
+  left: 15%;
+  text-align: center;
+  background-color: var(--primary);
+}
+
+.fixed-border {
+  border: 2px solid black; 
+  border-radius: 100px;
+  width: 60%;
+  height: 70%;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.card p {
+  font-size: 80px;
+}
+
+.buttons {
+  -ms-flex: 5%;
+  flex: 5%;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  padding-right: 8%;
+  background-color: var(--primary);
+}
+
+.buttons button {
+  margin: 5px;
+}
