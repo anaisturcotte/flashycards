@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 //---------------------Login----------------------
 app.post('/auth', function(request, response) { 
 	// Capture the input fields
+	console.log(`request.body=${JSON.stringify(request.body)}`)
 	let username = request.body.username;
 	let password = request.body.password;
 	// Ensure the input fields exists and are not empty
