@@ -36,20 +36,20 @@
     <div class="wrapper">
         <div class="form-wrapper sign-in">
             <a href="#" class="close"><i class="fa-solid fa-xmark"></i></a>
-            <form action="">
+            <form action="/auth" method="post">
                 <h2>Login</h2>
                 <div class="input-group">
-                    <input type="text" required>
+                    <input type="text" id="username" required>
                     <label for="">Username</label>
                 </div>
                 <div class="input-group">
-                    <input type="password" required>
+                    <input type="password" id="password" required>
                     <label for="">Password</label>
                 </div>
                 <div class="remember">
                     <label><input type="checkbox"> Remember me</label>
                 </div>
-                <button type="submit" class="btn">Login</button>
+                <button type="submit" value="Login" class="btn">Login</button>
                 <div class="sign-link">
                     <p>Don't have an account ? <a href="#" class="signUp-link">Sign Up</a></p>
                 </div>
@@ -61,14 +61,14 @@
             <form action="">
                 <h2>Sign Up</h2>
                 <div class="input-group">
-                    <input type="text" required>
+                    <input type="text" id="newUsername" required>
                     <label for="">Username</label>
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="newEmail">
                     <input type="email" required>
                     <label for="">E-mail</label>
                 </div>
-                <div class="input-group">
+                <div class="input-group" id="newPassword">
                     <input type="password" required>
                     <label for="">Password</label>
                 </div>
@@ -99,6 +99,6 @@
     <div class="footer">something inc, all rights reserved
     </div>
 
-    <script src="index.js"></script>
+    <script src="login_open.js"></script>
 </body>
 </html>
