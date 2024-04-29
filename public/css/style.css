@@ -122,11 +122,10 @@ body{
     padding: 5px;
     display: block;
     width: 100%;
-    top: 59%;
+    top: 65%;
     justify-content: center;
     background-color: var(--primary);
-    z-index: 2;
-    border: 3px solid blueviolet;
+    /* border: 3px solid blueviolet; */
 }
 
 /* For cards */
