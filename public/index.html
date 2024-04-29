@@ -36,7 +36,7 @@
     <div class="wrapper">
         <div class="form-wrapper sign-in">
             <a href="#" class="close"><i class="fa-solid fa-xmark"></i></a>
-            <form action="/auth" method="post">
+            <form action="/login" method="post">
                 <h2>Login</h2>
                 <div class="input-group">
                     <input type="text" id="username" name="username" required>
@@ -58,28 +58,23 @@
 
         <div class="form-wrapper sign-up">
             <a href="#" class="close"><i class="fa-solid fa-xmark"></i></a>
-            <form action="">
+            <form action="/signup" method="post">
                 <h2>Sign Up</h2>
                 <div class="input-group">
-                    <input type="text" id="newUsername" required>
-                    <label for="">Username</label>
+                    <input type="text" id="newUsername" name="newUsername" required>
+                    <label for="newUsername">Username</label>
                 </div>
-                <div class="input-group" id="newEmail">
-                    <input type="email" required>
-                    <label for="">E-mail</label>
+                <div class="input-group">
+                    <input type="email" id="newEmail" name="newEmail" required>
+                    <label for="newEmail">E-mail</label>
                 </div>
-                <div class="input-group" id="newPassword">
-                    <input type="password" required>
-                    <label for="">Password</label>
+                <div class="input-group">
+                    <input type="password" id="newPassword" name="newPassword" required>
+                    <label for="newPassword">Password</label>
                 </div>
-
-                <!--<div class="remember">
-                    <label><input type="checkbox"> I agree to the terms & conditions</label>
-                </div>-->
-
-                <button type="submit" class="btn">Sign Up</button>
+                <button type="submit" value="Signup" class="btn">Sign Up</button>
                 <div class="sign-link">
-                    <p>Already have an account ? <a href="#" class="signIn-link">Sign In</a></p>
+                    <p>Already have an account ? <a href="#" class="signIn-link">Login</a></p>
                 </div>
             </form>
         </div>

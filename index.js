@@ -45,7 +45,7 @@ app.get('/', function(request, response) {
 });
 
 //---------------------Login----------------------
-app.post('/auth', function(request, response) { 
+app.post('/login', function(request, response) { 
     // Capture the input fields
     console.log(`request.body=${JSON.stringify(request.body)}`)
     let username = request.body.username;
@@ -79,6 +79,39 @@ app.post('/auth', function(request, response) {
 });
 
 
+//-------------------Sign Up-------------------
+
+app.post('/signup', function(request, response) { 
+    // Capture the input fields
+    console.log(`request.body=${JSON.stringify(request.body)}`)
+    let newUsername = request.body.newUsername;
+	let newEmail = request.body.newEmail;
+    let newPassword = request.body.newPassword;
+    // Ensure the input fields exist and are not empty
+    if (newUsername && newPassword) {
+        // Execute SQL query that'll select the account from the database based on the specified newUsername and newPassword
+        connection.query('INSERT INTO accounts (username, email, password) VALUES (?, ?, ?)', [newUsername, newEmail, newPassword], function(error, results, fields) {
+            // If there is an issue with the query, output the error
+            if (error) {
+                console.error('Error executing SQL query: ' + error);
+                response.send('An error occurred. Please try again later.');
+            } else {
+				// Authenticate the user
+				request.session.loggedin = true;
+				request.session.newUsername = newUsername;
+				// Redirect to home page
+				response.redirect('/newProfil');
+			}
+            response.end();
+        });
+    } else {
+        response.send('Username or password missing.');
+        response.end();
+    }
+});
+
+
+//-------------------Profil redirect-------------------
 app.get('/profil', function(request, response) {
 	// If the user is loggedin
 	if (request.session.loggedin) {
@@ -91,6 +124,19 @@ app.get('/profil', function(request, response) {
 	response.end();
 });
 
+//-------------------newProfil redirect-------------------
+
+app.get('/newProfil', function(request, response) {
+	// If the user is loggedin
+	if (request.session.loggedin) {
+		// Output username
+		response.send('Welcome to Flashy Cards, ' + request.session.newUsername + '!');
+	} else {
+		// Not logged in
+		response.send('Please login to view this page!');
+	}
+	response.end();
+});
 
 //-------------------Initialiser le serveur-------------------
 app.listen(port, () => console.info(`App listening on port ${port}`))
