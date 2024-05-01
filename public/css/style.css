@@ -4,7 +4,7 @@
 /* Color palette */
 :root{
     --green: #3C7F72;
-    --primary: #FFFBED;
+    --primary: #F0EDE6;
     --secondary: #303030;
     --grey: #757575;
     --red: #992800;
@@ -12,7 +12,7 @@
     --yellow:#FFAF00;
     --pink: #ffd2fa;
 }
-
+/* #FFFBED */
 /* Page styling */
 *{
     margin: 0;
@@ -79,7 +79,6 @@ body{
     font-size: 20px;
     font-weight: 500;
     color: black;
-    z-index: 1;
 }
 
 .header-right{
@@ -106,7 +105,7 @@ body{
     width: 100%;
     padding: 5%;
     top: 22%;
-    z-index: 1;
+    /* z-index: 1; */
    /*border: 3px solid green;*/
 }
   
@@ -126,29 +125,6 @@ body{
     justify-content: center;
     background-color: var(--primary);
     /* border: 3px solid blueviolet; */
-}
-
-/* For cards */
-.filter {
-    background-color: var(--grey);
-    padding: 10px;
-    width: 20%;
-    height: 40%;
-    position: sticky;
-    top: 10%;
-    border-radius: 10px;
-    left: 0;
-    margin-left: 5px;
-}
-  
-.explore_page {
-    padding-left: 25%;
-    padding-top: 20px;
-    height: 100%;
-    text-align: left;
-    background-color: var(--primary);
-    padding-bottom: 40px;
-    padding-right: 40px;
 }
 
 /* Table */
@@ -182,71 +158,6 @@ table.center td a:hover {
     text-decoration-line: underline;
 }
 
-/* card study page */
-
-.slider-container {
-    -ms-flex: 4%;
-    flex: 4%;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    padding-right: 8%;
-}
-  
-.slider {
-    height: 100%;
-}
-  
-.vertical-slider {
-    appearance: slider-vertical;
-}
-  
-.card {
-    -ms-flex: 82%;
-    flex: 82%;
-    padding: 20px;
-    margin-left: 3%;
-    margin-right: 3%;
-    position: absolute;
-    align-items: center;
-    top: 15%;
-    left: 15%;
-    text-align: center;
-    background-color: var(--primary);
-}
-  
-.fixed-border {
-    border: 2px solid black; 
-    border-radius: 100px;
-    width: 60%;
-    height: 70%;
-}
-  
-.flex-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-}
-  
-.card p {
-    font-size: 80px;
-}
-  
-.buttons {
-    -ms-flex: 5%;
-    flex: 5%;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    padding-right: 8%;
-    background-color: var(--primary);
-}
-  
-.buttons button {
-    margin: 5px;
-}
 
 /*Forms*/
 .close{
@@ -255,7 +166,7 @@ table.center td a:hover {
     right: 10px;
     width: 30px;
     height: 30px;
-    background: #FFFBED;
+    background: var(--primary);
     border-radius: 50%;
     text-decoration: none;
     display: flex;
@@ -290,6 +201,7 @@ table.center td a:hover {
     transition-delay: calc(.1s * var(--i));
     margin-bottom: 0;
     transform: translate(0, 0) scale(1);
+    /* z-index: 1; */
 }
 
 .wrapper span:nth-of-type(1){
@@ -306,11 +218,11 @@ table.center td a:hover {
     position: absolute;
     width: 400px;
     height: 500px;
-    background: #FFFBED;
+    background: var(--primary);
 }
 
 .wrapper.show-bg .bg{
-    z-index: 1;
+    /* z-index: 1; */
 }
 
 .form-wrapper{
@@ -324,13 +236,13 @@ table.center td a:hover {
     height: 100%;
     /* background: #757575; */
     border-radius: 10px;
-    z-index: 3;
+    z-index: 1;
     transform: translate(500px, -200px) scale(0);
     transition: transform .5s ease-in-out, background 0s, left .5s ease-in-out;
 }
 
 .wrapper.active .form-wrapper{
-    transition-delay: 1.5s, 1.8s, 0s;
+    transition-delay: 1.2s, 1.8s, 0s;
     /* background: #757575; */
     transform: translate(0,0) scale(1);
 }
@@ -351,7 +263,7 @@ table.center td a:hover {
 
 h2{
     font-size: 30px;
-    color: #FFFBED;
+    color: var(--primary);
     text-align: center;
     padding-top: 20px;
 }
@@ -396,7 +308,7 @@ h2{
 
 .input-group input:focus,
 .input-group input:valid{
-    border: 1px solid #FFFBED;
+    border: 1px solid var(--primary);
 }
 
 .remember{
@@ -409,7 +321,7 @@ h2{
 }
 
 .remember label input{
-    accent-color: #FFFBED;
+    accent-color: var(--primary);
 }
 
 .btn{
@@ -418,7 +330,7 @@ h2{
     left: 0;
     width: 100%;
     height: 40px;
-    background: #FFFBED;
+    background: var(--primary);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -438,7 +350,7 @@ h2{
 }
 
 .sign-link p a{
-    color: #FFFBED;
+    color: var(--primary);
     text-decoration: none;
     font-weight: 600;
 }
