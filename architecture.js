@@ -18,7 +18,7 @@
 
 // mysql> select * from dossiers;
 // +----+------------+-------------+
-// | id | nomDossier | nomCreateur |
+// | id | nomDossier | idCreateur |
 // +----+------------+-------------+
 // |  1 |            |             |
 // +----+------------+-------------+
@@ -53,3 +53,8 @@
 // doivent être dans un conteneur <p> / <div> / ... avec id : "#userInfo" + le nom de 
 // l'enregistrement où elle est contenue.
 // Puisque toutes les tables sont connectées à accounts avec l'ID de l'utisisateur
+
+//------------------utiliser des templates avec mustache--------------------
+// https://www.npmjs.com/package/mustache
+
+// install mustache: npm install mustache --save

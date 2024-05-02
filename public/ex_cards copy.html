@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" contente="IE-edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>exemple cartes</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link href="css/styles.css" rel="stylesheet" type="text/css" />
+        <link href="images/cards.png" rel="icon">
+        <title>Explorer</title>
+    </head>
+
+    <body>
+        <div class="header">
+            <a href="home.html">Retour</a>
+        </div>
+
+        <div class="row">
+            <div class="slider-container">
+                <div class="slider">
+                    <div>
+                        <input type="range" min="1" max="3" value="2" style="height: 40%; writing-mode: vertical-lr; direction: rtl;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card__inner">
+                    <div class="card__face card__face--front">
+                        <h2>Developer card</h2>
+                    </div>
+                    <div class="card__face card__face--back">
+                        <div class="card__content">
+                            <div class="card__body">
+                                <h3>titre</h3>
+                                <p>{{card_face}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button href="#default">shuffle</button></br>
+                <button href="#default">back</button></br>
+                <button href="#default">indice</button></br>
+                <button href="#default">next</button></br>
+                <button href="#default">Retourner</button>
+            </div>
+        </div>
+
+        <script src="card.js"></script>
+        <script src="/server.js"></script>
+    </body>
+</html>

@@ -2,7 +2,9 @@
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
+const mustacheExpress = require('mustache-express');
 const path = require('path');
+
 
 // Connections
 const port = 5100;
@@ -42,8 +44,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(request, response) {
 	// Render login template
 	response.sendFile(path.join(__dirname, 'public/index.html'));
+    // response.sendFile(path.join(__dirname, 'public/explore.html'));
     response.end()
 });
+
 
 
 //---------------------Login----------------------
@@ -116,3 +120,49 @@ app.post('/signup', function(request, response) {
 
 //-------------------Initialiser le serveur-------------------
 app.listen(port, () => console.info(`App listening on port ${port}`))
+
+// ----------------------------------------------------------------------------------------------------------- //
+// ------------------------------------------- Openning a card set ------------------------------------------- //
+// ----------------------------------------------------------------------------------------------------------- //
+
+const _ = require('lodash');
+
+let card_set = {
+    ids:[],
+    terms: [],
+    definitions: [],
+    hints: [],
+    knownLevel: [],
+    randNumList: []
+}
+
+// example of results :
+// [
+//     { id: 1, name: 'Card 1', description: 'Description of Card 1', idEnsemble: 1 },
+//     { id: 2, name: 'Card 2', description: 'Description of Card 2', idEnsemble: 1 },
+//     { id: 3, name: 'Card 3', description: 'Description of Card 3', idEnsemble: 2 }
+// ]
+
+function open(cardSet) {
+    console.log(`open(cardSet) entered !!!`);
+    connection.query("select * from cartes where ensemble.nomEnsemble=? and ensemble.id=cartes.idEnsemble" [cardSet], function(error, results, fields) {
+        if (error) {
+            console.error('Error executing SQL query: ' + error);
+        } else {
+            var randomNumber = 0;
+            for (let i = 0; i <= results.length; i++) {
+                card_set.ids.push(results[i]['id']);
+                card_set.terms.push(results[i]['motTerme']);
+                card_set.definitions.push(results[i]['motDefinition']);
+                card_set.hints.push(results[i]['aide']);
+                card_set.knownLevel.push(results[i]['nivConnu']);
+                card_set.randNumList.push(randomNumber = _.random(1, 10));
+            }
+            console.log(`card_set: ${card_set}`);
+        }
+    });
+}
+
+// --------------------------------------------------------------------------------------------------------------- //
+// ------------------------------------------------ with MUSTACHE ------------------------------------------------ //
+// --------------------------------------------------------------------------------------------------------------- //
