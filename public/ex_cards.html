@@ -10,8 +10,6 @@
         <link href="css/styles.css" rel="stylesheet" type="text/css" />
         <link href="images/cards.png" rel="icon">
         <title>Explorer</title>
-        <link href="style.css" rel="stylesheet" type="text/css" />
-        <link href="Images/cards.png" rel="icon">
     </head>
 
     <body>
@@ -28,8 +26,23 @@
                 </div>
             </div>
             
-            <div class="card fixed-border flex-container">
-            <p>Tah Dah</p>
+            <div class="card">
+                <div class="card__inner">
+                    <div class="card__face card__face--front">
+                        <h2>Developer card</h2>
+                    </div>
+                    <div class="card__face card__face--back">
+                        <div class="card__content">
+                            <div class="card__body">
+                                <h3>titre</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                Donec rhoncus dolor sed libero gravida consectetur. Maecenas 
+                                ornare molestie egestas. Integer vel cursus velit, quis dignissim 
+                                felis. Fusce vel elementum leo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="buttons">
@@ -41,6 +54,7 @@
             </div>
         </div>
 
-      <script src="/index.js"></script>
+        <script src="card.js"></script>
+        <script src="/index.js"></script>
     </body>
 </html>
