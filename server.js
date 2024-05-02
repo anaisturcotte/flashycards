@@ -37,12 +37,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//---------------------lien avec html---------------------
 
+//---------------------lien avec html---------------------
 app.get('/', function(request, response) {
 	// Render login template
 	response.sendFile(path.join(__dirname, 'public/index.html'));
+    response.end()
 });
+
 
 //---------------------Login----------------------
 app.post('/login', function(request, response) { 
@@ -65,7 +67,8 @@ app.post('/login', function(request, response) {
                     request.session.loggedin = true;
                     request.session.username = username;
                     // Redirect to home page
-                    response.redirect('/profil');
+                    console.log(`redirecting... utilisateur=${request.session.username}`);
+				    response.redirect(`/home.html?utilisateur=${request.session.username}`);
                 } else {
                     response.send('Incorrect Username and/or Password!');
                 }
@@ -80,7 +83,6 @@ app.post('/login', function(request, response) {
 
 
 //-------------------Sign Up-------------------
-
 app.post('/signup', function(request, response) { 
     // Capture the input fields
     console.log(`request.body=${JSON.stringify(request.body)}`)
@@ -96,12 +98,13 @@ app.post('/signup', function(request, response) {
                 console.error('Error executing SQL query: ' + error);
                 response.send('An error occurred. Please try again later.');
             } else {
-				// Authenticate the user
-				request.session.loggedin = true;
-				request.session.newUsername = newUsername;
-				// Redirect to home page
-				response.redirect('/newProfil');
-			}
+                // Authenticate the user
+                request.session.loggedin = true;
+                request.session.username = newUsername;
+                // Redirect to home page
+                console.log(`redirecting... utilisateur=${request.session.username}`);
+                response.redirect(`/home.html?utilisateur=${request.session.username}`);
+            }
             response.end();
         });
     } else {
@@ -110,33 +113,6 @@ app.post('/signup', function(request, response) {
     }
 });
 
-
-//-------------------Profil redirect-------------------
-app.get('/profil', function(request, response) {
-	// If the user is loggedin
-	if (request.session.loggedin) {
-		// Output username
-		response.send('Welcome back, ' + request.session.username + '!');
-	} else {
-		// Not logged in
-		response.send('Please login to view this page!');
-	}
-	response.end();
-});
-
-//-------------------newProfil redirect-------------------
-
-app.get('/newProfil', function(request, response) {
-	// If the user is loggedin
-	if (request.session.loggedin) {
-		// Output username
-		response.send('Welcome to Flashy Cards, ' + request.session.newUsername + '!');
-	} else {
-		// Not logged in
-		response.send('Please login to view this page!');
-	}
-	response.end();
-});
 
 //-------------------Initialiser le serveur-------------------
 app.listen(port, () => console.info(`App listening on port ${port}`))

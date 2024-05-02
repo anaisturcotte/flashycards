@@ -37,4 +37,19 @@
 // |  1 |            |          |               |      |          |
 // +----+------------+----------+---------------+------+----------+
 
-//------------------Boutons sur la page--------------------
+//------------------Côté serveur / Côté client--------------------
+// Côté serveur:
+// | MySQL
+// |   | Affichage des cartes
+// |   | paramètres de connexion
+
+// Côté client:
+// | username et email passés dans le url lors de la connexion
+// | fonctions utilisées pour les annimations
+
+//------------------utiliser les requêtes dans le HTML--------------------
+
+// Toutes instances où une variable contenue dans le MySQL est utilisée dans une page HTML 
+// doivent être dans un conteneur <p> / <div> / ... avec id : "#userInfo" + le nom de 
+// l'enregistrement où elle est contenue.
+// Puisque toutes les tables sont connectées à accounts avec l'ID de l'utisisateur

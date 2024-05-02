@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang='fr'>
 <html>
     <head>
       <meta charset="utf-8">
@@ -9,7 +8,7 @@
       <link href="images/cards.png" rel="icon">
     </head>
 
-    <body>
+    <body onload="onloaded()">
       <div class="header">
         <a href="a_propos.html">À propos</a>
         <div class="header-right">
@@ -18,7 +17,7 @@
       </div>
 
       <div class="title">
-        <h1>Dashboard</h1>
+        <h1>Allo <span id="userInfoUsername"></span></h1>
       </div>
 
       <div class="menu-bar">
@@ -36,6 +35,6 @@
         something inc, all rights reserved
       </div>
 
-      <script src="script.js"></script>
+      <script src="/index.js"></script>
     </body>
 </html>
