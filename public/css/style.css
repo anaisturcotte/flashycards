@@ -14,7 +14,7 @@
 }
 /* #FFFBED */
 /* Page styling */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -221,9 +221,9 @@ table.center td a:hover {
     background: var(--primary);
 }
 
-.wrapper.show-bg .bg{
-    /* z-index: 1; */
-}
+/* .wrapper.show-bg .bg{
+    z-index: 1;
+} */
 
 .form-wrapper{
     position: absolute;

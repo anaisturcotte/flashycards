@@ -1,21 +1,24 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html leng='en'>
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" contente="IE-edge">
+    <meta http-equiv="X-UA-Compatible" contente="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Flashy Cards</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="images/cards.png" rel="icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="/images/cards.png" rel="icon">
 </head>
 
 <body>
     <div class="header">
-        <a href="a_propos.html" id="one">About</a>
+        <a href="a_propos.mustache" id="one">About</a>
         <div class="header-right">
-            <a href="ex_cards.html" class="two">Sign Up</a>
+            <a href="ex_cards.mustache" class="two">Sign Up</a>
             <button class="toggle-login" id="three">Login</button>
         </div>
     </div>
@@ -28,7 +31,7 @@
     <div class="menu-bar">
         <table class="center">
           <tr>
-            <td><a href="explore.html">EXPLORE</a></td>
+            <td><a href="explore.mustache">EXPLORE</a></td>
           </tr>
         </table>
     </div>
@@ -96,4 +99,5 @@
 
     <script src="login.js"></script>
 </body>
+
 </html>
