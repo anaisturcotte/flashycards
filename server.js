@@ -9,6 +9,9 @@ const mustacheExpress = require('mustache-express');
 // Connections
 const port = 5100;
 
+// userInfo
+let user = '';
+
 //-------------------Lien avec sql-------------------
 const connection = mysql.createConnection({
 	host     : '127.0.0.1',
@@ -28,7 +31,7 @@ connection.connect(function(err) {
 });
 
 // accès au site sur host local:
-// http://localhost:5100/index.html#
+// http://localhost:5100/index.html
 
 // Set Mustache as the view engine
 app.engine("mustache", mustacheExpress());
@@ -47,9 +50,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // css and images
 app.use(express.static(__dirname + '/public'));
-// app.use('/css', express.static('public/css', { 'extensions': ['css'] }));
-// app.use('/images', express.static('public/images', { 'extensions': ['png'] }));
-
 
 //---------------------lien avec html---------------------
 
@@ -57,12 +57,26 @@ app.get("/index", (req, res) => {
     res.render("index");
 });
 
-// app.get('/', function(request, response) {
-// 	// Render login template
-// 	response.sendFile(path.join(__dirname, 'views/index.html'));
-//     // response.sendFile(path.join(__dirname, 'views/explore.html'));
-//     response.end()
-// });
+app.get("/home", (req, res) => {
+    const { username } = req.query;
+    res.render("home", { user });
+});
+
+app.get("/a_propos", (req, res) => {
+    res.render("a_propos");
+});
+
+app.get("/ex_cards", (req, res) => {
+    res.render("ex_cards");
+});
+
+app.get("/explore", (req, res) => {
+    res.render("explore");
+});
+
+app.get("/profile", (req, res) => {
+    res.render("profile", { user });
+});
     
     
 //---------------------Login----------------------
@@ -85,9 +99,10 @@ app.post('/login', function(request, response) {
                     // Authenticate the user
                     request.session.loggedin = true;
                     request.session.username = username;
+                    user = request.session.username;
                     // Redirect to home page
-                    console.log(`redirecting... username=${request.session.username}`);
-                    response.redirect(`/home?username=${request.session.username}`);
+                    console.log(`redirecting... user=${user}`);
+                    response.redirect(`/home?user=${user}`);
                 } else {
                     response.send('Incorrect Username and/or Password!');
                 }
@@ -120,9 +135,10 @@ app.post('/signup', function(request, response) {
                 // Authenticate the user
                 request.session.loggedin = true;
                 request.session.username = newUsername;
+                user = request.session.username;
                 // Redirect to home page
-                console.log(`redirecting... username=${request.session.username}`);
-                response.redirect(`/home.html?username=${request.session.username}`);
+                console.log(`redirecting... user=${user}`);
+                response.redirect(`/home?user=${user}`);
             }
             response.end();
         });
@@ -132,11 +148,11 @@ app.post('/signup', function(request, response) {
     }
 });
 
-app.get("/home", (req, res) => {
-    const { username } = req.query;
-    res.render("home", { username });
+app.post('/profil', function(req, res) {
+    console.log(`redirecting... user=${user}`);
+    response.redirect(`/profile?user=${user}`);
 });
-    
+
     
 // ----------------------------------------------------------------------------------------------------------- //
 // ------------------------------------------- Openning a card set ------------------------------------------- //
