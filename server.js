@@ -58,7 +58,6 @@ app.get("/index", (req, res) => {
 });
 
 app.get("/home", (req, res) => {
-    const { username } = req.query;
     res.render("home", { user });
 });
 
@@ -148,10 +147,10 @@ app.post('/signup', function(request, response) {
     }
 });
 
-app.post('/profil', function(req, res) {
-    console.log(`redirecting... user=${user}`);
-    response.redirect(`/profile?user=${user}`);
-});
+// app.post('/profil', function(req, res) {
+//     console.log(`redirecting... user=${user}`);
+//     response.redirect(`/profile?user=${user}`);
+// });
 
     
 // ----------------------------------------------------------------------------------------------------------- //
