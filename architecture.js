@@ -17,17 +17,18 @@
 // +----+-----------+----------+---------------------+
 
 // mysql> select * from dossiers;
-// +----+------------+-------------+
+// +----+------------+------------+
 // | id | nomDossier | idCreateur |
-// +----+------------+-------------+
-// |  1 |            |             |
-// +----+------------+-------------+
+// +----+------------+------------+
+// |  1 | exDossier1 |          1 |
+// +----+------------+------------+
 
 // mysql> select * from ensembles;
 // +----+-------------+-----------+
 // | id | nomEnsemble | idDossier |
 // +----+-------------+-----------+
-// |  1 |             |           |
+// |  1 | exEnsemble1 |         1 |
+// |  2 | exEnsemble2 |         1 |
 // +----+-------------+-----------+
 
 // mysql> select * from cartes;
@@ -38,14 +39,15 @@
 // +----+------------+----------+---------------+------+----------+
 
 //------------------Côté serveur / Côté client--------------------
-// Côté serveur:
-// | MySQL
-// |   | Affichage des cartes
-// |   | paramètres de connexion
 
-// Côté client:
-// | username et email passés dans le url lors de la connexion
-// | fonctions utilisées pour les annimations
+// +---------------+-------------------+-------------+-----------------+
+// |     js        |       views       |  serveur.js |      MySQL      |
+// +---------------+-------------------+-------------+-----------------+
+// |               |                   | [/explore] -+->  [liste_ens   |
+// | next_card() <-+- explore.mustache | explore{} <-+-    obj.carte]  |
+// |     ↓         |    button next    |             |                 | 
+// |    AJAX   ----+-------------------+-------------+-> update cartes |
+// +---------------+-------------------+-------------+-----------------+
 
 //------------------utiliser les requêtes dans le HTML--------------------
 

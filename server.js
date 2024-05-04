@@ -11,6 +11,7 @@ const port = 5100;
 
 // userInfo
 let user = '';
+let userID = '';
 
 //-------------------Lien avec sql-------------------
 const connection = mysql.createConnection({
@@ -69,10 +70,6 @@ app.get("/ex_cards", (req, res) => {
     res.render("ex_cards");
 });
 
-app.get("/explore", (req, res) => {
-    res.render("explore");
-});
-
 app.get("/profile", (req, res) => {
     res.render("profile", { user });
 });
@@ -99,6 +96,7 @@ app.post('/login', function(request, response) {
                     request.session.loggedin = true;
                     request.session.username = username;
                     user = request.session.username;
+                    userID = results[0]['id'];
                     // Redirect to home page
                     console.log(`redirecting... user=${user}`);
                     response.redirect(`/home?user=${user}`);
@@ -135,6 +133,7 @@ app.post('/signup', function(request, response) {
                 request.session.loggedin = true;
                 request.session.username = newUsername;
                 user = request.session.username;
+                userID = results[0]['id'];
                 // Redirect to home page
                 console.log(`redirecting... user=${user}`);
                 response.redirect(`/home?user=${user}`);
@@ -160,6 +159,7 @@ app.post('/signup', function(request, response) {
 const _ = require('lodash');
 
 let card_set = {
+    ensemble: '',
     ids:[],
     terms: [],
     definitions: [],
@@ -167,6 +167,48 @@ let card_set = {
     knownLevel: [],
     randNumList: []
 }
+
+// Route to render the form
+app.get('/explore', async (req, res) => {
+    try {
+        const liste_dossiers = await new Promise((resolve, reject) => {
+            connection.query('SELECT dossiers.nomDossier FROM dossiers, accounts WHERE dossiers.idCreateur = accounts.id AND accounts.id = ?;', [userID], (error, results, fields) => {
+                if (error) {
+                    console.error('Error executing SQL query:', error);
+                    reject(error);
+                } else {
+                    const dossiersList = results.map(result => result.nomDossier);
+                    resolve(dossiersList);
+                }
+            });
+        });
+        const liste_ensembles = await new Promise((resolve, reject) => {
+            connection.query('SELECT ensembles.nomEnsemble FROM ensembles, dossiers, accounts where ensembles.idDossier = dossiers.id and dossiers.idCreateur=accounts.id and accounts.id=?;', [userID], (error, results, fields) => {
+                if (error) {
+                    console.error('Error executing SQL query:', error);
+                    reject(error);
+                } else {
+                    const ensemblesList = results.map(result => result.nomEnsemble);
+                    resolve(ensemblesList);
+                }
+            });
+        });
+        console.log('liste_dossiers:', liste_dossiers);
+        console.log('liste_ensembles:', liste_ensembles);
+        res.render('explore', { dossiers: liste_dossiers, ensembles: liste_ensembles});
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.send('An error occurred. Please try again later.');
+    }
+});
+
+
+// Route to handle form submission
+app.post('/submit', (req, res) => {
+    const selectedItems = req.body.checkboxes || [];
+    console.log('Selected Items:', selectedItems);
+    res.send('Form submitted successfully!');
+});
 
 // example of results :
 // [
@@ -194,10 +236,10 @@ function open(cardSet) {
         }
     });
 }
-        
-// ------------------------------------------------------------------------------------------------------------- //
-// ----------------------------------------------- with MUSTACHE ----------------------------------------------- //
-// ------------------------------------------------------------------------------------------------------------- //
+
+function openCardSet(le_ensemble) {
+
+}
 
 
 //-------------------Initialiser le serveur-------------------
