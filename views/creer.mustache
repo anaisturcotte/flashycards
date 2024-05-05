@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html leng='en'>
+<html leng='fr'>
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,7 @@
     <meta http-equiv="Expires" content="0" />
     <title>Flashy Cards</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="../public/css/styles.css">
+    <link rel="stylesheet" href="css/styless.css">
     <link href="images/cards.png" rel="icon">
 </head>
 
@@ -25,33 +25,31 @@
 
     <div class="container">
         <div class="form_container">
-            <form action="" method="post">
+            <form action="creerCarte" method="post">
                 <h2>New card set</h2>
                 <div class="input-group">
-                    <input type="text" id="nom" name="nomEnsemble" required>
-                    <label for="nom">Nom</label>
+                    <input type="text" id="nomEnsemble" name="nomEnsemble" required>
+                    <label for="nomEnsemble">Nom de l'ensemble</label>
                 </div>
                 <div class="input-group">
-                    <select name="dissiers" id="lab" required>
-                        <option value={null}></option>
-                        <option value="label1">label1</option>
-                        <option value="label2">label2</option>
-                        <option value="label3">label3</option>
-                        <option value="label4">label4</option>
-                        <option value="label5">label5</option>
+                    <select name="nomDossier" id="nomDossier" required>
+                    <option>selectionnez</option>
+                    {{#dossiers}}
+                        <option id="{{.}}" name="{{.}}">{{.}}</option>
+                    {{/dossiers}}
                     </select>
-                    <label for="dossiers">Catégorie</label>
+                    <label for="nomDossier"> </label>
                 </div>
                 <div class="input-group">
-                    <input type="text" id="mot" name="motTerme" required>
-                    <label for="mot">Mot clé</label>
+                    <input type="text" id="motTerme" name="motTerme" required>
+                    <label for="motTerme">Mot clé</label>
                 </div>
                 <div class="input-group">
-                    <input type="text" id="def" name="motDefinition" required>
-                    <label for="def">Définition</label>
-                    <button class="btn">valider</button>
-                    <button class="btn"><i class="fa-regular fa-square-plus"></i> ajouter une carte</button>
+                    <input type="text" id="motDefinition" name="motDefinition" required>
+                    <label for="motDefinition">Définition</label>
                 </div>
+                    <button type='submit' value='creerCarte' class="btn">Valider</button>
+                    <button class="btn"><i class="fa-regular fa-square-plus"></i> Ajouter une carte</button>
             </form>
         </div>
     </div>

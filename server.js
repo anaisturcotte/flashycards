@@ -3,8 +3,8 @@ const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-
 const mustacheExpress = require('mustache-express');
+const app = express();
 
 // Connections
 const port = 5100;
@@ -21,7 +21,6 @@ const connection = mysql.createConnection({
 	database : 'nodelogin'
 });
 
-const app = express();
 
 connection.connect(function(err) {
     if (err) {
@@ -146,27 +145,7 @@ app.post('/signup', function(request, response) {
     }
 });
 
-// app.post('/profil', function(req, res) {
-//     console.log(`redirecting... user=${user}`);
-//     response.redirect(`/profile?user=${user}`);
-// });
 
-    
-// ----------------------------------------------------------------------------------------------------------- //
-// ------------------------------------------- Openning a card set ------------------------------------------- //
-// ----------------------------------------------------------------------------------------------------------- //
-
-const _ = require('lodash');
-
-let card_set = {
-    ensemble: '',
-    ids:[],
-    terms: [],
-    definitions: [],
-    hints: [],
-    knownLevel: [],
-    randNumList: []
-}
 
 // Route to render the form
 app.get('/explore', async (req, res) => {
@@ -193,9 +172,43 @@ app.get('/explore', async (req, res) => {
                 }
             });
         });
-        console.log('liste_dossiers:', liste_dossiers);
-        console.log('liste_ensembles:', liste_ensembles);
+        console.log('1. liste_dossiers:', liste_dossiers);
+        console.log('1. liste_ensembles:', liste_ensembles);
         res.render('explore', { dossiers: liste_dossiers, ensembles: liste_ensembles});
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.send('An error occurred. Please try again later.');
+    }
+});
+
+
+app.get('/creer', async (req, res) => {
+    try {
+        const liste_dossiers = await new Promise((resolve, reject) => {
+            connection.query('SELECT dossiers.nomDossier FROM dossiers, accounts WHERE dossiers.idCreateur = accounts.id AND accounts.id = ?;', [userID], (error, results, fields) => {
+                if (error) {
+                    console.error('Error executing SQL query:', error);
+                    reject(error);
+                } else {
+                    const dossiersList = results.map(result => result.nomDossier);
+                    resolve(dossiersList);
+                }
+            });
+        });
+        const liste_ensembles = await new Promise((resolve, reject) => {
+            connection.query('SELECT ensembles.nomEnsemble FROM ensembles, dossiers, accounts where ensembles.idDossier = dossiers.id and dossiers.idCreateur=accounts.id and accounts.id=?;', [userID], (error, results, fields) => {
+                if (error) {
+                    console.error('Error executing SQL query:', error);
+                    reject(error);
+                } else {
+                    const ensemblesList = results.map(result => result.nomEnsemble);
+                    resolve(ensemblesList);
+                }
+            });
+        });
+        console.log('2. liste_dossiers:', liste_dossiers);
+        console.log('2. liste_ensembles:', liste_ensembles);
+        res.render('creer', { dossiers: liste_dossiers});
     } catch (error) {
         console.error('Error fetching data:', error);
         res.send('An error occurred. Please try again later.');
@@ -210,13 +223,81 @@ app.post('/submit', (req, res) => {
     res.send('Form submitted successfully!');
 });
 
+
 // example of results :
 // [
     //     { id: 1, name: 'Card 1', description: 'Description of Card 1', idEnsemble: 1 },
     //     { id: 2, name: 'Card 2', description: 'Description of Card 2', idEnsemble: 1 },
     //     { id: 3, name: 'Card 3', description: 'Description of Card 3', idEnsemble: 2 }
     // ]
+
+
+    //------------------- creerCarte -------------------
+app.post('/creerCarte', async (request, response) => { 
+    try {
+        const nomEnsemble = request.body.nomEnsemble;
+        const nomDossier = request.body.nomDossier;
+        const motTerme = request.body.motTerme;
+        const motDefinition = request.body.motDefinition;
+        console.log('request.body', request.body);
+
+        // Retrieve the IDs of the dossier and ensemble
+        const [dossierResult, ensembleResult] = await Promise.all([
+            queryPromise(connection, 'SELECT id FROM dossiers WHERE nomDossier = ?', [nomDossier]),
+            queryPromise(connection, 'SELECT id FROM ensembles WHERE nomEnsemble = ?', [nomEnsemble])
+        ]);
+
+        if (!dossierResult.length) {
+            response.send('Dossier not found.');
+            return;
+        }
+
+        const idDossier = dossierResult[0].id;
         
+        if (!ensembleResult.length) {
+            console.log('insert into ensembles', nomEnsemble, idDossier);
+            await queryPromise(connection, 'INSERT INTO ensembles (nomEnsemble, idDossier) VALUES (?, ?)', [nomEnsemble, idDossier]);
+            queryPromise(connection, 'SELECT id FROM ensembles WHERE nomEnsemble = ?', [nomEnsemble]);
+            console.log('ensembleResult', ensembleResult);
+        }
+
+        const idEnsemble = ensembleResult[0].id;
+
+        // Insert data into the database
+        console.log('insert into cartes', motTerme, motDefinition, idEnsemble);
+        await queryPromise(connection, 'INSERT INTO cartes (motTerme, motDefinition, idEnsemble) VALUES (?, ?, ?)', [motTerme, motDefinition, idEnsemble]);
+
+        response.send('Card created successfully!');
+    } catch (error) {
+        console.error('Error creating card:', error);
+        response.status(500).send('An error occurred. Please try again later.');
+    }
+});
+
+// Helper function to promisify MySQL queries
+function queryPromise(connection, sql, values) {
+    return new Promise((resolve, reject) => {
+        connection.query(sql, values, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+}
+    
+const _ = require('lodash');
+
+let card_set = {
+    ensemble: '',
+    ids:[],
+    terms: [],
+    definitions: [],
+    hints: [],
+    knownLevel: [],
+    randNumList: []
+}
 function open(cardSet) {
     console.log(`open(cardSet) entered !!!`);
     connection.query("select * from cartes where ensemble.nomEnsemble=? and ensemble.id=cartes.idEnsemble", [cardSet], function(error, results, fields) {
@@ -237,9 +318,6 @@ function open(cardSet) {
     });
 }
 
-function openCardSet(le_ensemble) {
-
-}
 
 
 //-------------------Initialiser le serveur-------------------
