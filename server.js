@@ -231,8 +231,12 @@ app.post('/submit', (req, res) => {
     //     { id: 3, name: 'Card 3', description: 'Description of Card 3', idEnsemble: 2 }
     // ]
 
+// var popup = require('popups');
+const notifier = require('node-notifier');
+const popup = require('node-popup');
 
-    //------------------- creerCarte -------------------
+
+//------------------- creerCarte -------------------
 app.post('/creerCarte', async (request, response) => { 
     try {
         const nomEnsemble = request.body.nomEnsemble;
@@ -240,18 +244,19 @@ app.post('/creerCarte', async (request, response) => {
         const motTerme = request.body.motTerme;
         const motDefinition = request.body.motDefinition;
         console.log('request.body', request.body);
-
+        
         // Retrieve the IDs of the dossier and ensemble
         const [dossierResult, ensembleResult] = await Promise.all([
             queryPromise(connection, 'SELECT id FROM dossiers WHERE nomDossier = ?', [nomDossier]),
             queryPromise(connection, 'SELECT id FROM ensembles WHERE nomEnsemble = ?', [nomEnsemble])
         ]);
-
+        
         if (!dossierResult.length) {
-            response.send('Dossier not found.');
+            const erreur='Dossier introuvable :(';
+            response.render('page_probleme', {message_erreur: erreur});
             return;
         }
-
+        
         const idDossier = dossierResult[0].id;
         
         if (!ensembleResult.length) {
@@ -260,14 +265,12 @@ app.post('/creerCarte', async (request, response) => {
             queryPromise(connection, 'SELECT id FROM ensembles WHERE nomEnsemble = ?', [nomEnsemble]);
             console.log('ensembleResult', ensembleResult);
         }
-
+        
         const idEnsemble = ensembleResult[0].id;
-
+        
         // Insert data into the database
         console.log('insert into cartes', motTerme, motDefinition, idEnsemble);
         await queryPromise(connection, 'INSERT INTO cartes (motTerme, motDefinition, idEnsemble) VALUES (?, ?, ?)', [motTerme, motDefinition, idEnsemble]);
-
-        response.send('Card created successfully!');
     } catch (error) {
         console.error('Error creating card:', error);
         response.status(500).send('An error occurred. Please try again later.');
