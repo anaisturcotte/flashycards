@@ -4,8 +4,8 @@
 /* Color palette */
 :root{
   --green: #3C7F72;
-  --primary: #F0EDE6;
-  --secondary: #012b14;
+  --primary: #E8E5E5;
+  --secondary: #014921;
   --grey: #757575;
   --red: #992800;
   --orange: #D34A24;
@@ -13,11 +13,10 @@
 }
 
 /* Page styling */
-
 * {
   box-sizing: border-box;
   font-family: "Calistoga";
-  color: #012b14;
+  color: var(--secondary);
 }
 
 body {
@@ -64,9 +63,9 @@ body {
 
 .header a {
   text-decoration: none;
-  color: black;
+  color: var(--secondary);
   padding: 3px;
-  border: 2px solid black;
+  border: 2px solid var(--secondary);
 }
 
 /* title */
@@ -109,7 +108,7 @@ body {
 /* Text */
 a {
   text-decoration: none;
-  color: #000000;
+  color: var(--secondary);
 }
 
 /* Dans page */
@@ -228,6 +227,39 @@ input[type="range"] {
 
 .buttons button {
   margin: 5px;
+}
+
+.butt {
+  align-items: center;
+  border: 1px solid #dbdbdb;
+  border-radius: .375em;
+  cursor: pointer;
+  display: inline-flex;
+  /* height: 2.5em; */
+  justify-content: center;
+  line-height: 1.5;
+  padding: calc(.5em - 1px) 1em;
+  position: relative;
+  text-align: center;
+  -webkit-user-select: none;
+}
+
+.butt:active {
+  border-color: #4a4a4a;
+  outline: 0;
+}
+
+.butt:focus {
+  border-color: var(--secondary);
+  outline: 0;
+}
+
+.butt:hover {
+  border-color: #b5b5b5;
+}
+
+.butt:focus:not(:active) {
+  box-shadow: rgba(72, 95, 199, .25) 0 0 0 .125em;
 }
 
 .card{

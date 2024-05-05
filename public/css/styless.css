@@ -4,8 +4,8 @@
 /* Color palette */
 :root{
   --green: #3C7F72;
-  --primary: #F0EDE6;
-  --secondary: #012b14;
+  --primary: #E8E5E5;
+  --secondary: #014921;
   --grey: #757575;
   --red: #992800;
   --orange: #D34A24;
@@ -69,8 +69,8 @@ body {
   text-decoration: none;
   cursor: pointer;
   font-size: 20px;
-  color: black;
-  border: 2px solid black;
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
 }
 
 .header-right{
@@ -231,7 +231,7 @@ form h2{
 /* Text */
 a {
   text-decoration: none;
-  color: #000000;
+  color: #014921;
 }
 
 /* Dans page */

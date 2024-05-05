@@ -4,15 +4,15 @@
 /* Color palette */
 :root{
     --green: #3C7F72;
-    --primary: #F0EDE6;
-    --secondary: #012b14;
+    --primary: #E8E5E5;
+    --secondary: #014921;
     --grey: #757575;
     --red: #992800;
     --orange: #D34A24;
     --yellow:#FFAF00;
     --pink: #ffd2fa;
 }
-/* #FFFBED #014921  #E8E5E5 #303030*/
+/* #FFFBED #014921  #E8E5E5 #303030  012b14*/
 /* Page styling */
 * {
     margin: 0;
