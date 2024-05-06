@@ -275,7 +275,7 @@ const popup = require('node-popup');
 
 
 //------------------- creerCarte -------------------
-app.post('/creerCarte', async (request, response) => { 
+app.post('/creerCarte', async (request, response) => {
     try {
         const nomEnsemble = request.body.nomEnsemble;
         const nomDossier = request.body.nomDossier;
@@ -313,7 +313,7 @@ app.post('/creerCarte', async (request, response) => {
         await queryPromise(connection, 'INSERT INTO cartes (motTerme, motDefinition, idEnsemble) VALUES (?, ?, ?)', [motTerme, motDefinition, idEnsemble]);
     } catch (error) {
         console.error('Error creating card:', error);
-        res.render('creer', { dossiers: liste_dossiers});
+        response.render('/creer', { dossiers: liste_dossiers});
     }
 });
 
