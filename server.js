@@ -72,7 +72,10 @@ app.get("/ex_cards", (req, res) => {
 app.get("/profile", (req, res) => {
     res.render("profile", { user });
 });
-    
+
+app.get("/creerDossier", (req, res) => {
+    res.render("creerDossier");
+});
     
 //---------------------Login----------------------
 app.post('/login', function(request, response) { 
@@ -132,10 +135,19 @@ app.post('/signup', function(request, response) {
                 request.session.loggedin = true;
                 request.session.username = newUsername;
                 user = request.session.username;
-                userID = results[0]['id'];
+                connection.query('SELECT * FROM accounts WHERE username=? and email=? and password=?', [newUsername, newEmail, newPassword], function(error, results, fields) {
+                    // If there is an issue with the query, output the error
+                    if (error) {
+                        console.error('Error executing SQL query: ' + error);
+                        response.send('An error occurred. Please try again later.');
+                    } else {
+                        userID = results[0]['id'];
+                    }
+                    response.end();
+                });
                 // Redirect to home page
                 console.log(`redirecting... user=${user}`);
-                response.redirect(`/home?user=${user}`);
+                response.redirect(`home?user=${user}`);
             }
             response.end();
         });
@@ -216,6 +228,32 @@ app.get('/creer', async (req, res) => {
 });
 
 
+//------------------- Creer Dossier -------------------
+app.post('/creationDossier', async (request, response) => {
+        console.log(`request.body=${JSON.stringify(request.body)}`)
+        let nomDossier = request.body.nomDossier;
+        // Ensure the input fields exist and are not empty
+        if (nomDossier) {
+            // Execute SQL query that'll select the account from the database based on the specified newUsername and newPassword
+            connection.query('INSERT INTO dossiers (nomDossier, idCreateur) VALUES (?, ?)', [nomDossier, userID], function(error, results, fields) {
+                // If there is an issue with the query, output the error
+                if (error) {
+                    console.error('Error executing SQL query: ' + error);
+                    response.send('An error occurred. Please try again later.');
+                } else {
+                    // Redirect to home page
+                    console.log(`redirecting... user=${user}`);
+                    response.redirect(`home?user=${user}`);
+                }
+                response.end();
+            });
+        } else {
+            response.send('Username or password missing.');
+            response.end();
+        }
+});
+
+
 // Route to handle form submission
 app.post('/submit', (req, res) => {
     const selectedItems = req.body.checkboxes || [];
@@ -258,6 +296,7 @@ app.post('/creerCarte', async (request, response) => {
         }
         
         const idDossier = dossierResult[0].id;
+        console.log('idDossier : ' + idDossier);
         
         if (!ensembleResult.length) {
             console.log('insert into ensembles', nomEnsemble, idDossier);
@@ -267,13 +306,14 @@ app.post('/creerCarte', async (request, response) => {
         }
         
         const idEnsemble = ensembleResult[0].id;
-        
+        console.log('idEnsemble : ' + idEnsemble);
+
         // Insert data into the database
-        console.log('insert into cartes', motTerme, motDefinition, idEnsemble);
+        console.log('insert into cartes ', motTerme, motDefinition, idEnsemble);
         await queryPromise(connection, 'INSERT INTO cartes (motTerme, motDefinition, idEnsemble) VALUES (?, ?, ?)', [motTerme, motDefinition, idEnsemble]);
     } catch (error) {
         console.error('Error creating card:', error);
-        response.status(500).send('An error occurred. Please try again later.');
+        res.render('creer', { dossiers: liste_dossiers});
     }
 });
 

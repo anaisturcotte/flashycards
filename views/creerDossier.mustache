@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html leng='fr'>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" contente="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Flashy Cards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styless.css">
+    <link href="images/cards.png" rel="icon">
+</head>
+
+<body>
+    <div class="header">
+         <a onclick="history.back()">Réesseyer</a>
+    </div>
+
+    <div class="container">
+        <div class="form_container">
+            <form action="creationDossier" method="post">
+                <h2>New card set</h2>
+                <div class="input-group">
+                    <input type="text" id="nomDossier" name="nomDossier" required>
+                    <label for="nomDossier">Nom du dossier</label>
+                </div>
+                    <button type='submit' value='creationDossier' class="btn">Valider</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">something inc, all rights reserved
+    </div>
+
+    <script src=""></script>
+</body>
+
+</html>
