@@ -44,7 +44,7 @@
 // |     js        |       views       |  serveur.js |      MySQL      |
 // +---------------+-------------------+-------------+-----------------+
 // |               |                   | [/explore] -+->  [liste_ens   |
-// | next_card() <-+- explore.mustache | explore{} <-+-    obj.carte]  |
+// | openCard()  <-+- explore.mustache | explore{} <-+-    obj.carte]  |
 // |     ↓         |    button next    |             |                 | 
 // |    AJAX   ----+-------------------+-------------+-> update cartes |
 // +---------------+-------------------+-------------+-----------------+

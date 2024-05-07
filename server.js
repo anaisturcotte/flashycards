@@ -274,8 +274,8 @@ app.post('/submit', (req, res) => {
     // ]
 
 // var popup = require('popups');
-const notifier = require('node-notifier');
-const popup = require('node-popup');
+// const notifier = require('node-notifier');
+// const popup = require('node-popup');
 
 
 //------------------- creerCarte -------------------

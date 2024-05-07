@@ -17,6 +17,7 @@
   box-sizing: border-box;
   font-family: "Calistoga";
   color: var(--secondary);
+  font-family: 'Calistoga';
 }
 
 body {
@@ -46,41 +47,53 @@ body {
 }
 
 /* header */
-.header {
-  padding: 10px;
+.header{
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
   top: 0;
-  position: sticky;
-  height: 8vh;
+  padding: 7px;
+  align-items: center;
+  height: fit-content;
+  width: 100%;
+  background: var(--primary);
+  /* border: 3px solid red; */
 }
 
-.header-center {
-  float: center;
+.header a{
+  display: inline-block;
+  width: fit-content;
+  padding: 5px;
+  border: 2px solid var(--secondary);
+  vertical-align: middle;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
 }
 
-.header-right {
+.header-right{
   float: right;
 }
 
-.header a {
-  text-decoration: none;
-  color: var(--secondary);
-  font-size: 20px;
-  padding: 3px;
-  border: 2px solid var(--secondary);
-}
-
-.bton{
+.header form {
   position: absolute;
-  top: 5px;
-  right: 81px;
-  height: fit-content;
-  padding: 4px;
+  top: 17px;
+  right: 93px;
   align-items: center;
   height: fit-content;
-  background: var(--primary);
+}
+
+form .bton{
+  display: inline-block;
+  width: fit-content;
+  padding: 5px;
+  border: 2px solid var(--secondary);
+  vertical-align: middle;
+  text-decoration: none;
+  cursor: pointer;
   font-size: 20px;
   font-weight: 500;
-  border: 2px solid var(--secondary);
 }
 
 /* title */
