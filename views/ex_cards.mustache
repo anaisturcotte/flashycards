@@ -27,16 +27,12 @@
             <div class="card">
                 <div class="card__inner">
                     <div class="card__face card__face--front">
-                        <h2>Developer card</h2>
+                        <h2 id='front'>{{ front }}</h2>
                     </div>
                     <div class="card__face card__face--back">
                         <div class="card__content">
                             <div class="card__body">
-                                <h3>titre</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Donec rhoncus dolor sed libero gravida consectetur. Maecenas 
-                                ornare molestie egestas. Integer vel cursus velit, quis dignissim 
-                                felis. Fusce vel elementum leo.</p>
+                                <h2>{{ back }}</h2>
                             </div>
                         </div>
                     </div>
@@ -44,11 +40,8 @@
             </div>
             
             <div class="buttons">
-                <button href="#default">shuffle</button></br>
-                <button href="#default">back</button></br>
-                <button href="#default">indice</button></br>
-                <button href="#default">next</button></br>
-                <button href="#default">Retourner</button>
+                <a onclick="history.back()">Retour</a>
+                <button href="nextCard">next</button><br>
             </div>
         </div>
 

@@ -17,25 +17,18 @@
 
         <div class="filter">
             <p><u><b>Dossiers</b></u></p>
-            <form action="/filter" method="post">
-                {{#dossiers}}
-                    <label>
-                        <input type="checkbox" name="checkboxes[]" value="{{.}}">
-                        {{.}}
-                    </label>
-                    <br>
-                {{/dossiers}}
-                {{! <button type="submit" value="chercher" class="btn">Chercher</button> }}
-            </form>
+            {{#dossiers}}
+                <ul>{{.}}</ul>
+            {{/dossiers}}
         </div>
         <div class="explore_page">
             <p>explore</p><br><br>
             {{#ensembles}}
-                <button onclick='openCardSet({{.}})'>{{.}}</button>
+                <button onclick="openCard('{{.}}')">{{.}}</button>
             {{/ensembles}}
-            <a href="ex_cards copy.html" action="open(ex_card_set)">hihi</a>
         </div>
-
         <div class="footer">something inc, all rights reserved</div>
+        
+        <script src="/js/filter.js"></script>
     </body>
 </html>

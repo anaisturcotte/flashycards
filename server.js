@@ -157,6 +157,14 @@ app.post('/signup', function(request, response) {
     }
 });
 
+//------------------- Déconnexion -------------------
+app.post('/deconnexion', function(request, response) { 
+    // Capture the input fields
+    console.log('deconnexion')
+    user = '';
+    userID = '';
+    response.render("index");
+});
 
 
 // Route to render the form
@@ -184,8 +192,6 @@ app.get('/explore', async (req, res) => {
                 }
             });
         });
-        console.log('1. liste_dossiers:', liste_dossiers);
-        console.log('1. liste_ensembles:', liste_ensembles);
         res.render('explore', { dossiers: liste_dossiers, ensembles: liste_ensembles});
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -218,8 +224,6 @@ app.get('/creer', async (req, res) => {
                 }
             });
         });
-        console.log('2. liste_dossiers:', liste_dossiers);
-        console.log('2. liste_ensembles:', liste_ensembles);
         res.render('creer', { dossiers: liste_dossiers});
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -333,34 +337,90 @@ function queryPromise(connection, sql, values) {
 const _ = require('lodash');
 
 let card_set = {
+    i: 0,
+    presentCard: 0,
     ensemble: '',
-    ids:[],
     terms: [],
     definitions: [],
-    hints: [],
     knownLevel: [],
     randNumList: []
 }
-function open(cardSet) {
-    console.log(`open(cardSet) entered !!!`);
-    connection.query("select * from cartes where ensemble.nomEnsemble=? and ensemble.id=cartes.idEnsemble", [cardSet], function(error, results, fields) {
-        if (error) {
-            console.error('Error executing SQL query: ' + error);
-        } else {
-            var randomNumber = 0;
-            for (let i = 0; i <= results.length; i++) {
-                card_set.ids.push(results[i]['id']);
-                card_set.terms.push(results[i]['motTerme']);
-                card_set.definitions.push(results[i]['motDefinition']);
-                card_set.hints.push(results[i]['aide']);
-                card_set.knownLevel.push(results[i]['nivConnu']);
-                card_set.randNumList.push(randomNumber = _.random(1, 10));
+
+function randNumList_generate(length) {
+    for (let i = 0; i < length; i++) {
+        let randomNumber;
+        function inside() {
+            randomNumber = _.random(1, 10);
+            console.log('randomNumber : ', randomNumber)
+            if (card_set.randNumList.includes(randomNumber)) {
+                inside(); // Retry generating a random number
+            } else {
+                card_set.randNumList.push(randomNumber);
             }
-            console.log(`card_set: ${card_set}`);
         }
-    });
+        inside();
+    }
 }
 
+
+let front = '';
+let back = '';
+
+app.post('/postData', async (req, res) => {
+    try {const data = req.body.data;
+        console.log('req.body.data', req.body.data);
+        const [termes, definitions, niveauxConnus] = await Promise.all([
+            queryPromise(connection, 'SELECT motTerme FROM cartes, ensembles WHERE ensembles.nomEnsemble=? and ensembles.id=cartes.idEnsemble;', [data]),
+            queryPromise(connection, 'SELECT motDefinition FROM cartes, ensembles WHERE ensembles.nomEnsemble=? and ensembles.id=cartes.idEnsemble;', [data]),
+            queryPromise(connection, 'SELECT nivConnu FROM cartes, ensembles WHERE ensembles.nomEnsemble=? and ensembles.id=cartes.idEnsemble;', [data])
+        ]);
+        
+        card_set.terms = [];
+        card_set.definitions = [];
+        card_set.knownLevel = [];
+        card_set.randNumList = [];
+        for (let i = 0; i < termes.length; i++) {
+            card_set.terms.push(termes[i].motTerme);
+            card_set.definitions.push(definitions[i].motDefinition);
+            card_set.knownLevel.push(niveauxConnus[i].nivConnu);
+        }
+        
+        console.log('card_set.terms :', card_set.terms);
+        console.log('card_set.definitions :', card_set.definitions);
+        console.log('card_set.knownLevel :', card_set.knownLevel);
+
+        for (let i = 0; i < termes.length; i++) {
+            let randomNumber;
+            function inside() {
+                randomNumber = _.random(1, 10);
+                if (card_set.randNumList.includes(randomNumber)) {
+                    inside(); // Retry generating a random number
+                } else {
+                    card_set.randNumList.push(randomNumber);
+                }
+            }
+            inside();
+        }
+        card_set.presentCard = card_set.randNumList[0];
+        console.log('card_set.presentCard : ', card_set.presentCard);
+        front = card_set.terms[card_set.presentCard];
+        back = card_set.definitions[card_set.presentCard];
+        console.log(`front : ${front} back :  ${back}`);
+        
+        res.render('ex_cards', {front: front, back: back});
+    } catch (error) {
+        console.error('Error opening card set:', error);
+        res.render('page_probleme');
+    }
+});
+
+// app.post('/postNext', (req, res) => {
+//     card_set.i = card_set.i + 1;
+//     nextNum = card_set.randNumList[i];
+//     front = card_set.terms[nextNum];
+//     back = card_set.definitions[nextNum];
+//     res.render('ex_cards', {front: front, back: back});
+// });
 
 
 //-------------------Initialiser le serveur-------------------
