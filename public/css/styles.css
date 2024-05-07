@@ -133,6 +133,16 @@ form .bton{
   padding-right: 40px;
 }
 
+.explore_page button{
+  -ms-flex: 5%;
+  flex: 5%;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  margin: 5px;
+}
+
 /* Text */
 a {
   text-decoration: none;
