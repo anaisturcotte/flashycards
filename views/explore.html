@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" contente="IE-edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Explore</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        <link href="../public/css/styles.css" rel="stylesheet" type="text/css" />
+        <link href="images/cards.png" rel="icon">
+    </head>
+
+    <body>
+        <div class="header">
+            <a onclick="history.back()">Retour</a>
+        </div>
+
+        <div class="filter">
+            <p><u><b>Dossiers</b></u></p>
+            {{#dossiers}}
+                <ul>{{.}}</ul>
+            {{/dossiers}}
+        </div>
+        <div class="explore_page">
+            <div class="buttons">
+                <p>explore</p><br><br>
+                {{#ensembles}}
+                    <button onclick="openCard('{{.}}')">{{.}}</button>
+                {{/ensembles}}
+        </div>
+        </div>
+        <div class="footer">something inc, all rights reserved</div>
+        
+        <script src="/js/filter.js"></script>
+    </body>
+</html>

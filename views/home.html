@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Home</title>
+      <link href="../public/css/styles.css" rel="stylesheet" type="text/css" />
+      <link href="images/cards.png" rel="icon">
+    </head>
+
+    <body>
+      <div class="header">
+        <a href="a_propos">À propos</a>
+        <div class="header-right">
+            <form action="deconnexion" method="post"> 
+                <button type='submit' value='deconnexion' class="bton">Déconnexion</button>
+            </form>
+          <a href="profile">Profil</a>
+        </div>
+      </div>
+
+      <div class="title">
+        <h1>Allo {{ user }}</h1>
+      </div>
+
+      <div class="menu-bar">
+        <table class="center">
+          <tr>
+            <td><a href="creerDossier">Créer un dossier</a></td>
+            <td><a href="creer">Créer un ensemble</a></td>
+            <td><a href="explore">Explorer</a></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="footer">
+        something inc, all rights reserved
+      </div>
+
+      <script src="js/index.js"></script>
+    </body>
+</html>
