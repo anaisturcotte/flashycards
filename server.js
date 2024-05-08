@@ -213,17 +213,6 @@ app.get('/creer', async (req, res) => {
                 }
             });
         });
-        const liste_ensembles = await new Promise((resolve, reject) => {
-            connection.query('SELECT ensembles.nomEnsemble FROM ensembles, dossiers, accounts where ensembles.idDossier = dossiers.id and dossiers.idCreateur=accounts.id and accounts.id=?;', [userID], (error, results, fields) => {
-                if (error) {
-                    console.error('Error executing SQL query:', error);
-                    reject(error);
-                } else {
-                    const ensemblesList = results.map(result => result.nomEnsemble);
-                    resolve(ensemblesList);
-                }
-            });
-        });
         res.render('creer', { dossiers: liste_dossiers});
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -273,14 +262,22 @@ app.post('/submit', (req, res) => {
     //     { id: 3, name: 'Card 3', description: 'Description of Card 3', idEnsemble: 2 }
     // ]
 
-// var popup = require('popups');
-// const notifier = require('node-notifier');
-// const popup = require('node-popup');
-
 
 //------------------- creerCarte -------------------
 app.post('/creerCarte', async (request, response) => {
     try {
+        const liste_dossiers = await new Promise((resolve, reject) => {
+            connection.query('SELECT dossiers.nomDossier FROM dossiers, accounts WHERE dossiers.idCreateur = accounts.id AND accounts.id = ?;', [userID], (error, results, fields) => {
+                if (error) {
+                    console.error('Error executing SQL query:', error);
+                    reject(error);
+                } else {
+                    const dossiersList = results.map(result => result.nomDossier);
+                    resolve(dossiersList);
+                }
+            });
+        });
+        
         const nomEnsemble = request.body.nomEnsemble;
         const nomDossier = request.body.nomDossier;
         const motTerme = request.body.motTerme;
@@ -305,7 +302,9 @@ app.post('/creerCarte', async (request, response) => {
         if (!ensembleResult.length) {
             console.log('insert into ensembles', nomEnsemble, idDossier);
             await queryPromise(connection, 'INSERT INTO ensembles (nomEnsemble, idDossier) VALUES (?, ?)', [nomEnsemble, idDossier]);
-            queryPromise(connection, 'SELECT id FROM ensembles WHERE nomEnsemble = ?', [nomEnsemble]);
+            const [ensembleResult] = await Promise.all(
+                [queryPromise(connection, 'SELECT id FROM ensembles WHERE nomEnsemble = ?', [nomEnsemble])
+            ]);
             console.log('ensembleResult', ensembleResult);
         }
         
@@ -315,9 +314,10 @@ app.post('/creerCarte', async (request, response) => {
         // Insert data into the database
         console.log('insert into cartes ', motTerme, motDefinition, idEnsemble);
         await queryPromise(connection, 'INSERT INTO cartes (motTerme, motDefinition, idEnsemble) VALUES (?, ?, ?)', [motTerme, motDefinition, idEnsemble]);
+        response.render('creer', { dossiers: liste_dossiers});
     } catch (error) {
         console.error('Error creating card:', error);
-        response.render('/creer', { dossiers: liste_dossiers});
+        response.render('creer', { dossiers: liste_dossiers});
     }
 });
 
@@ -346,29 +346,13 @@ let card_set = {
     randNumList: []
 }
 
-function randNumList_generate(length) {
-    for (let i = 0; i < length; i++) {
-        let randomNumber;
-        function inside() {
-            randomNumber = _.random(1, 10);
-            console.log('randomNumber : ', randomNumber)
-            if (card_set.randNumList.includes(randomNumber)) {
-                inside(); // Retry generating a random number
-            } else {
-                card_set.randNumList.push(randomNumber);
-            }
-        }
-        inside();
-    }
-}
-
 
 let front = '';
 let back = '';
 
 app.post('/postData', async (req, res) => {
     try {const data = req.body.data;
-        console.log('req.body.data', req.body.data);
+        console.log('req.body.data', req.body.data); // le nom de l'ensemble
         const [termes, definitions, niveauxConnus] = await Promise.all([
             queryPromise(connection, 'SELECT motTerme FROM cartes, ensembles WHERE ensembles.nomEnsemble=? and ensembles.id=cartes.idEnsemble;', [data]),
             queryPromise(connection, 'SELECT motDefinition FROM cartes, ensembles WHERE ensembles.nomEnsemble=? and ensembles.id=cartes.idEnsemble;', [data]),
@@ -382,17 +366,21 @@ app.post('/postData', async (req, res) => {
         for (let i = 0; i < termes.length; i++) {
             card_set.terms.push(termes[i].motTerme);
             card_set.definitions.push(definitions[i].motDefinition);
-            card_set.knownLevel.push(niveauxConnus[i].nivConnu);
+            if (niveauxConnus[i].nivConnu == null) {
+                card_set.knownLevel.push(0);
+            } else {
+                card_set.knownLevel.push(niveauxConnus[i].nivConnu);
+            }
         }
         
         console.log('card_set.terms :', card_set.terms);
         console.log('card_set.definitions :', card_set.definitions);
         console.log('card_set.knownLevel :', card_set.knownLevel);
 
-        for (let i = 0; i < termes.length; i++) {
+        for (let i = 0; i < card_set.terms.length; i++) {
             let randomNumber;
             function inside() {
-                randomNumber = _.random(1, 10);
+                randomNumber = _.random(0, (card_set.terms.length)-1);
                 if (card_set.randNumList.includes(randomNumber)) {
                     inside(); // Retry generating a random number
                 } else {
@@ -401,26 +389,43 @@ app.post('/postData', async (req, res) => {
             }
             inside();
         }
+        console.log(`card_set.randNumList: ${card_set.randNumList}`);
         card_set.presentCard = card_set.randNumList[0];
         console.log('card_set.presentCard : ', card_set.presentCard);
         front = card_set.terms[card_set.presentCard];
         back = card_set.definitions[card_set.presentCard];
-        console.log(`front : ${front} back :  ${back}`);
+        niveau = card_set.knownLevel[card_set.presentCard];
+
+        console.log(`front : ${front}, back :  ${back}, niveau : ${niveau}`);
         
-        res.render('ex_cards', {front: front, back: back});
+        res.render('ex_cards', {front: front, back: back, niveau});
     } catch (error) {
         console.error('Error opening card set:', error);
         res.render('page_probleme');
     }
 });
 
-// app.post('/postNext', (req, res) => {
-//     card_set.i = card_set.i + 1;
-//     nextNum = card_set.randNumList[i];
-//     front = card_set.terms[nextNum];
-//     back = card_set.definitions[nextNum];
-//     res.render('ex_cards', {front: front, back: back});
-// });
+app.post('/nextCard', (req, res) => {
+    // const data = req.body.data;
+    // console.log('next_card req.body.data', req.body.data);
+    // card_set.knownLevel.push(data);
+    // try {const data = req.body.data; // le niveau de connaissance
+    //     queryPromise(connection, 'UPDATE cartes (nivConnu)VALUES (?) WHERE catrtes.motTerme=?;', [data, card_set.terms[card_set.presentCard]]);
+    // } catch (error) {
+    //     console.error('Error opening card set:', error);
+    //     res.render('page_probleme');
+    // }
+    card_set.i = card_set.i + 1;
+    if (card_set.i > card_set.terms.length) {
+        res.render('home', {user: user});
+    }
+    nextNum = card_set.randNumList[card_set.i];
+    front = card_set.terms[nextNum];
+    back = card_set.definitions[nextNum];
+    niveau = card_set.knownLevel[nextNum];
+    console.log(`next_card card_set.i: ${card_set.i}, nextNum: ${nextNum}, front: ${front}, back: ${back}, niveau: ${niveau}`);
+    res.render('ex_cards', {front: front, back: back, niveau: 1});
+});
 
 
 //-------------------Initialiser le serveur-------------------

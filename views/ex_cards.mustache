@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" contente="IE-edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>exemple cartes</title>
+        <title>Card set</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
         <link href="css/styles.css" rel="stylesheet" type="text/css" />
         <link href="images/cards.png" rel="icon">
@@ -14,13 +14,13 @@
 
     <body>
         <div class="header">
-            <a onclick="history.back()">Retour</a>
+            <a href="home">Finir</a>
         </div>
 
         <div class="row">
             <div class="slider-container">
-                <div class="slider">
-                        <input type="range" min="1" max="3" value="2">
+                <div class="slider" id='slider'>
+                    <input type="range" min="0" max="2" value="{{ niveau }}">
                 </div>
             </div>
             
@@ -32,7 +32,7 @@
                     <div class="card__face card__face--back">
                         <div class="card__content">
                             <div class="card__body">
-                                <h2>{{ back }}</h2>
+                                <h2 id='back'>{{ back }}</h2>
                             </div>
                         </div>
                     </div>
@@ -40,12 +40,16 @@
             </div>
             
             <div class="buttons">
-                <a onclick="history.back()">Retour</a>
-                <button href="nextCard">next</button><br>
+                {{! <button onclick="history.back()">Retour</button><br> }}
+                <form action="nextCard" method="post">
+                    <button type='submit' value='nextCard' class="btn">Next</button>
+                </form>
+                {{! <button id='nextButton' onclick="nextCard()">Next</button> }}
             </div>
         </div>
 
         <script src="/js/card.js"></script>
         <script src="/js/index.js"></script>
+        {{! <script src="/js/next.js"></script> }}
     </body>
 </html>
