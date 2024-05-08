@@ -363,6 +363,7 @@ app.post('/postData', async (req, res) => {
         card_set.definitions = [];
         card_set.knownLevel = [];
         card_set.randNumList = [];
+        card_set.i = 0;
         for (let i = 0; i < termes.length; i++) {
             card_set.terms.push(termes[i].motTerme);
             card_set.definitions.push(definitions[i].motDefinition);
@@ -396,9 +397,9 @@ app.post('/postData', async (req, res) => {
         back = card_set.definitions[card_set.presentCard];
         niveau = card_set.knownLevel[card_set.presentCard];
 
-        console.log(`front : ${front}, back :  ${back}, niveau : ${niveau}`);
+        console.log(`front : ${front}, back :  ${back}, niveau : 0`);
         
-        res.render('ex_cards', {front: front, back: back, niveau});
+        res.render('ex_cards', {front: front, back: back, niveau: 0});
     } catch (error) {
         console.error('Error opening card set:', error);
         res.render('page_probleme');
@@ -416,7 +417,7 @@ app.post('/nextCard', (req, res) => {
     //     res.render('page_probleme');
     // }
     card_set.i = card_set.i + 1;
-    if (card_set.i > card_set.terms.length) {
+    if ((card_set.i)+1 > card_set.terms.length) {
         res.render('home', {user: user});
     }
     nextNum = card_set.randNumList[card_set.i];

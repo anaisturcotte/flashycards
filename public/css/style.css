@@ -86,8 +86,8 @@ body{
 #three{
     position: absolute;
     top: 6px;
-    right: 93px;
-    padding: 5px;
+    right: 3px;
+    padding: 10px;
     align-items: center;
     height: fit-content;
     background: var(--primary);
