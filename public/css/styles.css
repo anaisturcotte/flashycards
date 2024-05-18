@@ -114,7 +114,7 @@ form .bton{
 .filter {
   background-color: var(--grey);
   padding: 10px;
-  width: 20%;
+  width: 18%;
   height: 40%;
   position: sticky;
   top: 10%;
@@ -124,13 +124,20 @@ form .bton{
 }
 
 .explore_page {
-  padding-left: 25%;
-  padding-top: 20px;
+  display: flex;
+  position: absolute;
+  left: 20%;
+  top: 20px;
   height: 100%;
-  text-align: left;
+  width: 80%;
+  text-align: center;
   background-color: var(--primary);
-  padding-bottom: 40px;
-  padding-right: 40px;
+  bottom: 40px;
+  right: 40px;
+}
+
+.explore_page h2{
+  position: relative;
 }
 
 .explore_page button{
